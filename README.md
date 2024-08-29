@@ -12,5 +12,5 @@ It is not possible to get rid of the glowing border (because the glowing border 
 - Go to chrome://extensions/
 - Enable Developer mode
 - Click Load unpacked and select the extracted extension directory
-- Visit labs.staratlas.com
+- Visit based.staratlas.com
 - Sometimes a hard-refresh is needed (Shift-Reload)
