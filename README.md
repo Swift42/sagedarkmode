@@ -11,6 +11,6 @@ It is not possible to get rid of the glowing border (because the glowing border 
 - Unzip the downloaded file
 - Go to chrome://extensions/
 - Enable Developer mode
-- Click Load unpacked and select the extracted extension directory
+- Click [Load unpacked] and select the extracted extension directory
 - Visit based.staratlas.com
 - Sometimes a hard-refresh is needed (Shift-Reload)
