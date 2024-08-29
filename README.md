@@ -1,4 +1,4 @@
-# **Sage Dark Mode**
+# **Star Atlas: Sage Dark Mode** (Chrome extension)
 
 ### **Features**
 This extension intercepts network requests to the starmap background images and replaces them with dark images
