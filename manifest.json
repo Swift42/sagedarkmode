@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Sage Dark Mode",
+  "version": "1.0.0",
+  "description": "Dark mode for Sage",
+  "permissions": [
+	"declarativeNetRequest",
+	"declarativeNetRequestFeedback"
+  ],
+  "host_permissions": [
+    "https://based.staratlas.com/*", "https://cdn.staratlas.com/*"
+  ],
+  "background": {
+    "service_worker": "background-worker.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["labs-background.jpg", "map-border-odd.png", "extend-column-right.png", "extend-column-left.png", "map-column-even.png", "map-column-odd.png"],
+      "matches": ["<all_urls>"],
+      "use_dynamic_url": false
+    }
+  ],
+  "declarative_net_request": {
+	"rule_resources": [{
+		"id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"		
+	}]
+  }
+}
