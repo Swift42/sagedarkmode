@@ -3,7 +3,7 @@
 ### **Features**
 This extension intercepts network requests to the starmap background images and replaces them with dark images
 
-### Limits
+### Limitations
 It is not possible to get rid of the glowing border (because the glowing border isn't an image), but I did my best to make it look as soft as possible.
 
 ### Installation
