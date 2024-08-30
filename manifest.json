@@ -20,6 +20,13 @@
       "use_dynamic_url": false
     }
   ],
+  "content_scripts": [
+   {
+     "matches": ["https://based.staratlas.com/*"],
+     "js": ["content.js"],
+	 "world": "MAIN"
+   }
+ ],
   "declarative_net_request": {
 	"rule_resources": [{
 		"id": "ruleset_1",
