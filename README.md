@@ -1,10 +1,8 @@
 # **Star Atlas: Sage Dark Mode** (Chrome extension)
 
 ### **Features**
-This extension intercepts network requests to the starmap background images and replaces them with dark images
-
-### Limitations
-It is not possible to get rid of the glowing border (because the glowing border isn't an image), but I did my best to make it look as soft as possible.
+This extension intercepts network requests to the starmap background images and replaces them with dark images.
+It also makes the outer warp range brighter instead darker and the outer glow effect of the star map will be removed.
 
 ### Installation
 - Download or clone this repository
