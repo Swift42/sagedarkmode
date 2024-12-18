@@ -1,9 +1,51 @@
 
-(function() {
+(async function() {
     if (window.hasInjectedScript) {
         return;
     }
     window.hasInjectedScript = true;
+
+	function injectdrawJpegOldTiles(proto)
+	{		
+		async function loadImage(name)
+		{
+			const response = await fetch("chrome-extension://jbbcimnnhecbonhmjfmejmmfkoocmbcc/"+name);
+			const imageBlob = await response.blob();
+			return(await createImageBitmap(imageBlob));
+		}
+		const drawJpegOldTilesSaved = proto.drawJpegOldTiles;
+		proto.drawJpegOldTiles=async function() {
+			await drawJpegOldTilesSaved.call(this);
+			const mce=await loadImage('map-column-even.png');
+			const mco=await loadImage('map-column-odd.png');
+			const mbo=await loadImage('map-border-odd.png');
+			const ecl=await loadImage('extend-column-left.png');
+			const ecr=await loadImage('extend-column-right.png');
+
+			var index=this.backgroundJpegsContainer.children.length-1;			
+			while(index>=0)
+			{
+				if(this.backgroundJpegsContainer.children.at(index)._texture.label)
+				{
+					if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-column-odd')) 
+						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mco);
+					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-column-even')) 
+						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mce);
+					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-border-odd')) 
+						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mbo);
+					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('extend-column-left')) 
+						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(ecl);
+					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('extend-column-right')) 
+						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(ecr);
+				}
+				else
+				{
+					this.backgroundJpegsContainer.children.splice(index,1);					
+				}
+				index-=1;
+			}
+		};						
+	}
 	
 	function injectWarpOutOfRange(proto,graphics_constructor)
 	{
@@ -33,65 +75,26 @@
 		};				
 		
 	}
-
-	// Old code: get graphics object via stationaryFleetCircles
-	/*	
-	var injectDone=false;
 	
-	// check if stationaryFleetCircles has a filled map, otherwise exit (and try it again later)
-	function checkAndInject()
-	{
-		if(injectDone) return;
-		// find the WarpMapViewModel object
-		var map=window.__RK_Global_Container._registry._registryMap;
-		var arr=Array.from(map.keys());
-		var usekey=0;
-		arr.forEach(function(value,index) { if(value.name=="WarpMapViewModel") usekey=index; });
-
-		// get the graphics object through the stationaryFleetCircles object
-		if(typeof map.get(arr[usekey])[0].instance.stationaryFleetCircles.entries().next().value == 'undefined')
-			console.log('Not found');
-		else
-		{
-			injectDone=true;
-			console.log('Found');
-			injectWarpOutOfRange(map.get(arr[usekey])[0].provider.useClass.prototype,map.get(arr[usekey])[0].instance.stationaryFleetCircles.entries().next().value[1].constructor);
-		}
-	}
-	
-	// try to inject the new function after 3 seconds, if it fails, try it again every second (max 20 seconds)
-	for(var i=3000; i<=20000; i+=1000)
-		setTimeout(function() { checkAndInject(); },i);
-	*/
 	
 	
 	// search and get the WarpMapViewModel object
 	var map=window.__RK_Global_Container._registry._registryMap;
 	var arr=Array.from(map.keys());
 	var usekey=0;
-	arr.forEach(function(value,index) { if(value.name=="WarpMapViewModel") usekey=index; });
-
-	// set a location, this will also set the "graphics" object in "selectedLocation" and we can get it from there
+	arr.forEach(function(value,index) 
+	{ 
+		if(value.name=="WarpMapViewModel") usekey=index; 		
+	});
+	
 	map.get(arr[usekey])[0].instance.setSelectedLocation(0, 0);
 	
-	// inject our modified function
+	// inject our modified functions
 	const proto=map.get(arr[usekey])[0].provider.useClass.prototype;
 	const graphics_constructor=map.get(arr[usekey])[0].instance.selectedLocation.graphics.constructor;
 	injectWarpOutOfRange(proto,graphics_constructor);
-	
-	// we have the object now, reset to default: no location selected
+	injectdrawJpegOldTiles(proto);
+		
 	map.get(arr[usekey])[0].instance.deselectSelectedLocation();
-	
-	// get rid of the glow effect around the star map, we search for 2 objects in "backgroundJpegsContainer" with a height of 8400 and remove them.
-	var jpegs=map.get(arr[usekey])[0].instance.backgroundJpegsContainer.children;
-	var index=jpegs.length-1;
-	while(index>=0)
-	{
-		if(jpegs[index]._texture && jpegs[index]._texture.orig && jpegs[index]._texture.orig.height==8400)
-			jpegs.splice(index,1);
-		index-=1;
-	}
-	
-	// done
 		
 })();
