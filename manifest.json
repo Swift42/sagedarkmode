@@ -1,12 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Sage Dark Mode",
+  "key": "BTUQKtw8N05gH9GJ90xWP7OA65sH",
   "version": "1.0.0",
   "description": "Dark mode for Sage",
   "permissions": [
 	"declarativeNetRequest",
 	"declarativeNetRequestFeedback"
   ],
+  "externally_connectable": {
+    "matches": ["https://based.staratlas.com/*"]
+  },  
   "host_permissions": [
     "https://based.staratlas.com/*", "https://cdn.staratlas.com/*"
   ],
@@ -24,7 +28,8 @@
    {
      "matches": ["https://based.staratlas.com/*"],
      "js": ["content.js"],
-	 "world": "MAIN"
+	 "world": "MAIN",
+	 "run_at": "document_end"
    }
  ],
   "declarative_net_request": {
