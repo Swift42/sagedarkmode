@@ -5,6 +5,23 @@
     }
     window.hasInjectedScript = true;
 
+	function injectdrawJpegTiles(proto)
+	{		
+		const drawJpegTilesSaved = proto.drawJpegTiles;
+		proto.drawJpegTiles=async function() {
+			await drawJpegTilesSaved.call(this);
+			const response = await fetch("chrome-extension://jbbcimnnhecbonhmjfmejmmfkoocmbcc/my-map-hires.jpg");
+			const imageBlob = await response.blob();
+			const image = await createImageBitmap(imageBlob);	
+			console.log(this.backgroundJpegsContainer);
+			this.backgroundJpegsContainer.children[0].texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(image);
+			this.backgroundJpegsContainer.children[0].x=this.tileSize*-2;
+			this.backgroundJpegsContainer.children[0].y=this.tileSize*-2;
+			this.backgroundJpegsContainer.children[0].width=this.tileSize*105;
+			this.backgroundJpegsContainer.children[0].height=this.tileSize*105;
+		};						
+	}
+
 	function injectdrawJpegOldTiles(proto)
 	{		
 		async function loadImage(name)
@@ -93,6 +110,7 @@
 	const proto=map.get(arr[usekey])[0].provider.useClass.prototype;
 	const graphics_constructor=map.get(arr[usekey])[0].instance.selectedLocation.graphics.constructor;
 	injectWarpOutOfRange(proto,graphics_constructor);
+	injectdrawJpegTiles(proto);
 	injectdrawJpegOldTiles(proto);
 		
 	map.get(arr[usekey])[0].instance.deselectSelectedLocation();
