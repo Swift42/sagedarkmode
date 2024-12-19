@@ -4,6 +4,8 @@
 This extension intercepts network requests to the starmap background images and replaces them with dark images.
 It also makes the outer warp range brighter instead darker and the outer glow effect of the star map will be removed.
 
+![grafik](https://github.com/user-attachments/assets/70d39de9-bfd2-4767-abbf-e6cb047c90c7)
+
 ### Installation
 - Download or clone this repository
 - Unzip the downloaded file
