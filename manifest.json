@@ -19,7 +19,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["labs-background.jpg", "map-border-odd.png", "extend-column-right.png", "extend-column-left.png", "map-column-even.png", "map-column-odd.png"],
+      "resources": ["labs-background.jpg", "map-border-odd.png", "extend-column-right.png", "extend-column-left.png", "map-column-even.png", "map-column-odd.png", "my-map-hires.jpg"],
       "matches": ["<all_urls>"],
       "use_dynamic_url": false
     }
