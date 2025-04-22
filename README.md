@@ -12,7 +12,7 @@ It also makes the outer warp range brighter instead darker and the outer glow ef
 - Go to chrome://extensions/
 - Enable Developer mode
 - Click [Load unpacked] and select the extracted extension directory
-- Visit based.staratlas.com (and don't enable the new map interface)
+- Visit based.staratlas.com ~~(and don't enable the new map interface)~~
 - Sometimes a hard-refresh is needed (Shift-Reload)
 
 ### New: Special, reduced star map in "New Map Interface" mode
