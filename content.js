@@ -15,8 +15,8 @@
 			const image = await createImageBitmap(imageBlob);	
 			console.log(this.backgroundJpegsContainer);
 			this.backgroundJpegsContainer.children[0].texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(image);
-			this.backgroundJpegsContainer.children[0].x=this.tileSize*-2;
-			this.backgroundJpegsContainer.children[0].y=this.tileSize*-2;
+			this.backgroundJpegsContainer.children[0].x=this.tileSize*14;
+			this.backgroundJpegsContainer.children[0].y=this.tileSize*14;
 			this.backgroundJpegsContainer.children[0].width=this.tileSize*105;
 			this.backgroundJpegsContainer.children[0].height=this.tileSize*105;
 		};						
