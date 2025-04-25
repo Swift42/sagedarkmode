@@ -5,12 +5,15 @@
     }
     window.hasInjectedScript = true;
 
+	const meta = document.querySelector('meta[name="useMapType"]');
+	const useMapType = meta?.content || "";
+
 	function injectdrawJpegTiles(proto)
 	{		
 		const drawJpegTilesSaved = proto.drawJpegTiles;
 		proto.drawJpegTiles=async function() {
 			await drawJpegTilesSaved.call(this);
-			const response = await fetch("chrome-extension://jbbcimnnhecbonhmjfmejmmfkoocmbcc/my-map-hires.jpg");
+			const response = await fetch("chrome-extension://jbbcimnnhecbonhmjfmejmmfkoocmbcc/my-map-hires"+useMapType+".jpg");
 			const imageBlob = await response.blob();
 			const image = await createImageBitmap(imageBlob);	
 			console.log(this.backgroundJpegsContainer);
@@ -19,48 +22,6 @@
 			this.backgroundJpegsContainer.children[0].y=this.tileSize*-2;
 			this.backgroundJpegsContainer.children[0].width=this.tileSize*105;
 			this.backgroundJpegsContainer.children[0].height=this.tileSize*105;
-		};						
-	}
-
-	function injectdrawJpegOldTiles(proto)
-	{		
-		async function loadImage(name)
-		{
-			const response = await fetch("chrome-extension://jbbcimnnhecbonhmjfmejmmfkoocmbcc/"+name);
-			const imageBlob = await response.blob();
-			return(await createImageBitmap(imageBlob));
-		}
-		const drawJpegOldTilesSaved = proto.drawJpegOldTiles;
-		proto.drawJpegOldTiles=async function() {
-			await drawJpegOldTilesSaved.call(this);
-			const mce=await loadImage('map-column-even.png');
-			const mco=await loadImage('map-column-odd.png');
-			const mbo=await loadImage('map-border-odd.png');
-			const ecl=await loadImage('extend-column-left.png');
-			const ecr=await loadImage('extend-column-right.png');
-
-			var index=this.backgroundJpegsContainer.children.length-1;			
-			while(index>=0)
-			{
-				if(this.backgroundJpegsContainer.children.at(index)._texture.label)
-				{
-					if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-column-odd')) 
-						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mco);
-					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-column-even')) 
-						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mce);
-					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('map-border-odd')) 
-						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(mbo);
-					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('extend-column-left')) 
-						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(ecl);
-					else if(this.backgroundJpegsContainer.children.at(index)._texture.label.includes('extend-column-right')) 
-						this.backgroundJpegsContainer.children.at(index).texture=this.backgroundJpegsContainer.children[0].texture.constructor.from(ecr);
-				}
-				else
-				{
-					this.backgroundJpegsContainer.children.splice(index,1);					
-				}
-				index-=1;
-			}
 		};						
 	}
 	
@@ -111,7 +72,6 @@
 	const graphics_constructor=map.get(arr[usekey])[0].instance.selectedLocation.graphics.constructor;
 	injectWarpOutOfRange(proto,graphics_constructor);
 	injectdrawJpegTiles(proto);
-	injectdrawJpegOldTiles(proto);
 		
 	map.get(arr[usekey])[0].instance.deselectSelectedLocation();
 		
