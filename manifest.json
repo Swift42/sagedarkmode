@@ -2,29 +2,35 @@
   "manifest_version": 3,
   "name": "Sage Dark Mode",
   "key": "BTUQKtw8N05gH9GJ90xWP7OA65sH",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dark mode for Sage",
   "permissions": [
 	"declarativeNetRequest",
-	"declarativeNetRequestFeedback"
+	"declarativeNetRequestFeedback",
+	"storage"
   ],
   "externally_connectable": {
     "matches": ["https://based.staratlas.com/*"]
   },  
   "host_permissions": [
-    "https://based.staratlas.com/*", "https://cdn.staratlas.com/*"
+    "https://based.staratlas.com/*"
   ],
   "background": {
     "service_worker": "background-worker.js"
   },
   "web_accessible_resources": [
     {
-      "resources": ["labs-background.jpg", "map-border-odd.png", "extend-column-right.png", "extend-column-left.png", "map-column-even.png", "map-column-odd.png", "my-map-hires.jpg"],
+      "resources": ["my-map-hires.jpg", "my-map-hires2.jpg", "my-map-hires3.jpg"],
       "matches": ["<all_urls>"],
       "use_dynamic_url": false
     }
   ],
   "content_scripts": [
+  {
+     "matches": ["https://based.staratlas.com/*"],
+     "js": ["isolated.js"],
+     "run_at": "document_start"
+   },	
    {
      "matches": ["https://based.staratlas.com/*"],
      "js": ["content.js"],
@@ -32,11 +38,17 @@
 	 "run_at": "document_end"
    }
  ],
-  "declarative_net_request": {
-	"rule_resources": [{
-		"id": "ruleset_1",
-        "enabled": true,
-        "path": "rules.json"		
-	}]
-  }
+ "action": {
+    "default_popup": "popup.html",
+	"default_icon": {
+	  "16": "icon-16.png",
+	  "48": "icon-48.png",
+	  "128": "icon-128.png"
+	}	
+  },
+  "icons": {
+      "16": "icon-16.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+  }  
 }
