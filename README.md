@@ -11,10 +11,8 @@ You can choose between 3 map types.
 - Go to chrome://extensions/
 - Enable Developer mode
 - Click [Load unpacked] and select the extracted extension directory
-- Visit based.staratlas.com ~~(and don't enable the new map interface)~~
-- Sometimes a hard-refresh is needed (Shift-Reload)
+- Visit based.staratlas.com
+- click on the extension icon to change the map type
 
-### New: Special, reduced star map in "New Map Interface" mode
-![grafik](https://github.com/user-attachments/assets/7115364f-515c-4eb5-b40a-207abc826196)
-![grafik](https://github.com/user-attachments/assets/db94a7c9-66e0-4276-a642-f814d547d613)
+![grafik](https://github.com/user-attachments/assets/dcc36fa5-94e7-4a8d-823e-67cb9b037c00)
 
